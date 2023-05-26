@@ -15,6 +15,8 @@ services:
     # To learn about configuring Kafka for access across networks see
     # https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/
       - "9092:9092"
+    expose:
+      - '29092'
     depends_on:
       - zookeeper
     environment:
@@ -25,3 +27,15 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+  
+  init-kafka:
+    image: confluentinc/cp-kafka:7.3.2
+    depends_on:
+      - broker
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:29092 --list
+      kafka-topics --bootstrap-server broker:9092 --create --topic quickstart
+      "

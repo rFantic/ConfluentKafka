@@ -1,5 +1,13 @@
 package main
 
-import (
-	_ "github.com/confluentinc/confluent-kafka-go/v2/kafka"
-)
+import "context"
+
+func main() {
+	// create a new context
+	ctx := context.Background()
+	// produce messages in a new go routine, since
+	// both the produce and consume functions are
+	// blocking
+	go produce(ctx)
+	consume(ctx)
+}

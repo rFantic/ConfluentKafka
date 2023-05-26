@@ -11,10 +11,8 @@ import (
 
 // the topic and broker address are initialized as constants
 const (
-	topic          = "message-log"
-	broker1Address = "localhost:9093"
-	broker2Address = "localhost:9094"
-	broker3Address = "localhost:9095"
+	topic         = "quickstart"
+	brokerAddress = "localhost:9092"
 )
 
 func produce(ctx context.Context) {
@@ -23,7 +21,7 @@ func produce(ctx context.Context) {
 
 	// intialize the writer with the broker addresses, and the topic
 	w := kafka.NewWriter(kafka.WriterConfig{
-		Brokers: []string{broker1Address, broker2Address, broker3Address},
+		Brokers: []string{brokerAddress},
 		Topic:   topic,
 	})
 
